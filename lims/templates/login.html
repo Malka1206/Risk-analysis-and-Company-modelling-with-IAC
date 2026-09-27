@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block body %}
+  <h1>BioLab Analytics - LIMS</h1>
+  <p>Sign in with your LDAP account (technician or biologist).</p>
+  {% if error %}<p class="error">{{ error }}</p>{% endif %}
+  <form method="post">
+    <label>Username (uid)
+      <input type="text" name="uid" required autofocus>
+    </label>
+    <label>Password
+      <input type="password" name="password" required>
+    </label>
+    <button type="submit">Sign in</button>
+  </form>
+{% endblock %}

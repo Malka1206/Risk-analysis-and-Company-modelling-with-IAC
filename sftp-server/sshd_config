@@ -1,0 +1,33 @@
+# -----------------------------------------------------------------------------
+# BioLab Analytics - SFTP server (Description.md section 6.5)
+#
+# Real, working bidirectional SFTP:
+#   - biolab_admin  : writes to /outbound, reads /inbound
+#   - hopital_saint_martin : writes to /inbound, reads /outbound
+# Both are chrooted into the SAME shared directory (/data) -- what they can
+# actually see/do inside it is controlled by real POSIX permissions on the
+# inbound/outbound/to_encrypt subfolders (see entrypoint.sh), which is a
+# realistic way SFTP partner exchanges are set up in practice.
+#
+# Deliberate weakness (Plan_Maquette.txt section 13 / Description.md 6.5):
+# both accounts authenticate with the SAME static key pair
+# (keys/biolab_partner_key.pub), generated once and never rotated.
+# -----------------------------------------------------------------------------
+
+Port 22
+Protocol 2
+
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+UsePAM no
+X11Forwarding no
+PrintMotd no
+
+Subsystem sftp internal-sftp
+
+Match User biolab_admin,hopital_saint_martin
+    ChrootDirectory /data
+    ForceCommand internal-sftp
+    AllowTcpForwarding no
+    AllowAgentForwarding no

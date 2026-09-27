@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BioLab Analytics - LIMS</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; background: #f7f7f9; color: #222; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    nav a { margin-right: 1rem; }
+    table { border-collapse: collapse; width: 100%; background: white; }
+    th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; font-size: 0.9rem; }
+    th { background: #eee; }
+    .error { color: #a00; }
+    .message { color: #060; }
+    form { background: white; padding: 1rem; max-width: 400px; border: 1px solid #ddd; }
+    input { display: block; width: 100%; margin-bottom: 0.75rem; padding: 0.4rem; }
+    button { padding: 0.5rem 1rem; }
+  </style>
+</head>
+<body>
+  {% block body %}{% endblock %}
+</body>
+</html>

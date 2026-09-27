@@ -1,0 +1,15 @@
+# -----------------------------------------------------------------------------
+# Disable anonymous bind server-wide.
+#
+# This is applied against cn=config (not the content DIT), using the same
+# root authority (ldapi / EXTERNAL) the osixia/openldap entrypoint uses to
+# load every bootstrap file. Once this is applied, ANY simple bind without
+# credentials is rejected by the server -- every workstation, the LIMS, and
+# phpLDAPAdmin must authenticate with one of the accounts defined in
+# 01-users.ldif. There is no unauthenticated read/search path anymore.
+# -----------------------------------------------------------------------------
+
+dn: cn=config
+changetype: modify
+add: olcDisallows
+olcDisallows: bind_anon

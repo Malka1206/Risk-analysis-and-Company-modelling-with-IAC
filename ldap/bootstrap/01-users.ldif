@@ -1,0 +1,96 @@
+# -----------------------------------------------------------------------------
+# BioLab Analytics - LDAP bootstrap (content DIT)
+#
+# Deliberate weaknesses (see Plan_Maquette.txt section 9 / Description.md
+# section 6.1):
+#   - a single FLAT group "employees" holds every account: no separation
+#     between technician / biologist / bioinformatician / admin / IT roles.
+#   - each account has its OWN password, but every one of them is weak
+#     (short, dictionary-based, no complexity enforcement) -- see the table
+#     below. Anonymous bind is explicitly disabled (02-disable-anonymous-
+#     bind.ldif): every workstation/service MUST authenticate with one of
+#     these accounts, there is no unauthenticated access path anymore.
+#   - passwords are stored in CLEARTEXT (no {SSHA} hash prefix used here),
+#     which is itself an aggravating factor for this mockup.
+#
+# uid           | password        | role
+# --------------|-----------------|------------------
+# biologiste1   | Bio2024!        | biologiste
+# bioinfo1      | Genome99        | bioinformaticien
+# technicien1   | Labo1234        | technicien
+# admin1        | Accueil2023     | administratif
+# it1           | Support01       | it
+#
+# This file is auto-loaded by the osixia/openldap image on first start from
+# /container/service/slapd/assets/config/bootstrap/ldif/custom/
+# -----------------------------------------------------------------------------
+
+dn: ou=people,dc=biolab-analytics,dc=local
+objectClass: organizationalUnit
+ou: people
+
+dn: ou=groups,dc=biolab-analytics,dc=local
+objectClass: organizationalUnit
+ou: groups
+
+# Single flat group for every role -- deliberate lack of privilege
+# separation (ties to Description.md section 3.4's integrity weakness:
+# nothing technically distinguishes a "technician" from a "biologist").
+dn: cn=employees,ou=groups,dc=biolab-analytics,dc=local
+objectClass: groupOfNames
+cn: employees
+member: uid=biologiste1,ou=people,dc=biolab-analytics,dc=local
+member: uid=bioinfo1,ou=people,dc=biolab-analytics,dc=local
+member: uid=technicien1,ou=people,dc=biolab-analytics,dc=local
+member: uid=admin1,ou=people,dc=biolab-analytics,dc=local
+member: uid=it1,ou=people,dc=biolab-analytics,dc=local
+
+dn: uid=biologiste1,ou=people,dc=biolab-analytics,dc=local
+objectClass: inetOrgPerson
+uid: biologiste1
+cn: Biologiste Un
+sn: Un
+givenName: Biologiste
+mail: biologiste1@biolab-analytics.local
+userPassword: Bio2024!
+description: role=biologiste
+
+dn: uid=bioinfo1,ou=people,dc=biolab-analytics,dc=local
+objectClass: inetOrgPerson
+uid: bioinfo1
+cn: Bioinformaticien Un
+sn: Un
+givenName: Bioinformaticien
+mail: bioinfo1@biolab-analytics.local
+userPassword: Genome99
+description: role=bioinformaticien
+
+dn: uid=technicien1,ou=people,dc=biolab-analytics,dc=local
+objectClass: inetOrgPerson
+uid: technicien1
+cn: Technicien Un
+sn: Un
+givenName: Technicien
+mail: technicien1@biolab-analytics.local
+userPassword: Labo1234
+description: role=technicien
+
+dn: uid=admin1,ou=people,dc=biolab-analytics,dc=local
+objectClass: inetOrgPerson
+uid: admin1
+cn: Administratif Un
+sn: Un
+givenName: Administratif
+mail: admin1@biolab-analytics.local
+userPassword: Accueil2023
+description: role=administratif
+
+dn: uid=it1,ou=people,dc=biolab-analytics,dc=local
+objectClass: inetOrgPerson
+uid: it1
+cn: IT Un
+sn: Un
+givenName: IT
+mail: it1@biolab-analytics.local
+userPassword: Support01
+description: role=it

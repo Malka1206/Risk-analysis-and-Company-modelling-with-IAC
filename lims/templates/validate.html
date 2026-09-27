@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block body %}
+  <header>
+    <h1>Validate results (biologist)</h1>
+    <nav><a href="{{ url_for('dashboard') }}">&larr; Dashboard</a></nav>
+  </header>
+
+  {% if message %}<p class="message">{{ message }}</p>{% endif %}
+  {% if error %}<p class="error">{{ error }}</p>{% endif %}
+
+  <table>
+    <tr>
+      <th>Barcode</th><th>Patient</th><th>Storage object</th>
+      <th>Assigned by</th><th>Assigned at</th><th></th>
+    </tr>
+    {% for r in pending %}
+    <tr>
+      <td>{{ r.barcode }}</td>
+      <td>{{ r.first_name }} {{ r.last_name }}</td>
+      <td>{{ r.storage_reference }}</td>
+      <td>{{ r.technician_ldap_uid }}</td>
+      <td>{{ r.assignment_date }}</td>
+      <td>
+        <form method="post" style="all: revert; display:inline;">
+          <input type="hidden" name="result_id" value="{{ r.result_id }}">
+          <button type="submit">Validate</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  <p><em>Note: this screen re-reads the storage object by reference only --
+  no hash/signature is computed or compared against what the technician
+  originally assigned.</em></p>
+{% endblock %}

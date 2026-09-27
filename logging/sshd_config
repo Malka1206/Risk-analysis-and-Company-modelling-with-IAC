@@ -1,0 +1,19 @@
+# -----------------------------------------------------------------------------
+# BioLab Analytics - bastion + log server sshd_config
+# (Description.md section 6.6)
+#
+# Full interactive shell access (NOT sftp-only like sftp-server/sshd_config)
+# -- this is the IT bastion, staff land here and run admin CLI tools.
+# -----------------------------------------------------------------------------
+
+Port 22
+Protocol 2
+
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+UsePAM no
+X11Forwarding no
+PrintMotd no
+
+AllowUsers itsys

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block body %}
+  <header>
+    <h1>Dashboard</h1>
+    <nav>
+      Signed in as <strong>{{ uid }}</strong> ({{ role or "no role in app_users" }})
+      {% if role == "technicien" %}<a href="{{ url_for('assign') }}">Assign a result</a>{% endif %}
+      {% if role == "biologiste" %}<a href="{{ url_for('validate') }}">Validate results</a>{% endif %}
+      <a href="{{ url_for('logout') }}">Log out</a>
+    </nav>
+  </header>
+
+  <table>
+    <tr><th>Barcode</th><th>Patient</th><th>Status</th></tr>
+    {% for r in records %}
+    <tr>
+      <td>{{ r.barcode }}</td>
+      <td>{{ r.first_name }} {{ r.last_name }}</td>
+      <td>{{ r.status }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
