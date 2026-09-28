@@ -3,7 +3,7 @@
 > A deliberately vulnerable, fully functional Terraform/Docker mockup of a biomedical
 > genomics laboratory, built to support an **EBIOS Risk Manager** risk analysis.
 
-![BioLab Analytics — Network Topology](docs/network_topology.png)
+![BioLab Analytics — Network Topology](graph.png)
 
 ---
 
